@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meo Meo Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background-color: #fef2f2;
+            cursor: url('https://img.icons8.com/m_outlined/32/000000/cat-footprint.png'), auto;
+            transition: background-color 0.3s;
+            overflow-x: hidden;
+        }
+
+        .cat-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 4px solid #fbcfe8;
+            border-radius: 2rem;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .cat-ears::before, .cat-ears::after {
+            content: '';
+            position: absolute;
+            top: -25px;
+            width: 50px;
+            height: 50px;
+            background: #fbcfe8;
+            border: 4px solid #fbcfe8;
+            z-index: -1;
+        }
+
+        .cat-ears::before {
+            left: 30px;
+            border-radius: 50% 50% 0 0;
+            transform: skewX(-15deg);
+        }
+
+        .cat-ears::after {
+            right: 30px;
+            border-radius: 50% 50% 0 0;
+            transform: skewX(15deg);
+        }
+
+        /* Nút bấm siêu nổi bật */
+        .btn-magic {
+            background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+            border: none;
+            color: #b91c1c;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            box-shadow: 0 4px 15px rgba(244, 114, 182, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: pulse-button 2s infinite;
+        }
+
+        .btn-magic:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 6px 20px rgba(244, 114, 182, 0.6);
+            background: linear-gradient(45deg, #f472b6 0%, #fb923c 100%);
+            color: white;
+        }
+
+        @keyframes pulse-button {
+            0% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(244, 114, 182, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(244, 114, 182, 0); }
+        }
+
+        .btn-meo {
+            background: #fbcfe8;
+            transition: all 0.3s;
+        }
+
+        .btn-meo:hover {
+            background: #f472b6;
+            transform: scale(1.05);
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: -75px auto 1rem;
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 6px solid #fbcfe8;
+            object-fit: cover;
+            background-color: #fff;
+        }
+
+        .crush-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto;
+        }
+
+        .crush-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 3px solid #f472b6;
+            object-fit: cover;
+            background-color: #fff;
+        }
+        
+        .cat-nose {
+            width: 20px;
+            height: 12px;
+            background: #f472b6;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            margin: 5px auto;
+        }
+
+        .heart-icon {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            font-size: 20px;
+            animation: heartbeat 1.2s infinite;
+        }
+
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        .cay-cu-active {
+            animation: shake 0.2s infinite !important;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        .cay-cu-text {
+            color: #7f1d1d !important;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+
+        .particle {
+            position: fixed;
+            bottom: -50px;
+            pointer-events: none;
+            z-index: 5;
+            animation: flyUp var(--duration) linear infinite;
+        }
+
+        @keyframes flyUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+        }
+        
+        #crush-section {
+            display: none;
+            transform: scale(0.8);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        #crush-section.show {
+            display: block;
+            transform: scale(1);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4" id="main-body">
+
+    <div class="max-w-md w-full mt-20 mb-10">
+        <div class="cat-card cat-ears p-8 shadow-2xl text-center" id="profile-card">
+            <!-- Avatar -->
+            <div class="avatar-container">
+                <img src="https://scontent.fhan15-2.fna.fbcdn.net/v/t39.30808-1/632032495_122106615741232302_7285410064388912197_n.jpg?stp=cp6_dst-jpg_s200x200_tt6&_nc_cat=104&ccb=1-7&_nc_sid=e99d92&_nc_ohc=jVZOTeA7GboQ7kNvwFTKFjU&_nc_oc=Adli09_RSfOp1I-SQTA_998UV56qawRUSaws_4FiXnEWDQ0diXlW3uu5yvFmvcJtfG48NlCpigXBOi5HUd-lBvV5&_nc_zt=24&_nc_ht=scontent.fhan15-2.fna&_nc_gid=rH34iw0XdhoemSr7N7X4Mw&oh=00_AfsVv37vV-GfGA5InZiX1DBTlZ2S0Rg_F9hCkqw2GaF10g&oe=69911E6D" alt="Mèo Chủ Nhân" class="avatar-img" onerror="this.src='https://api.dicebear.com/7.x/adventurer/svg?seed=Felix&backgroundColor=fdf2f8'">
+                <div class="absolute -bottom-2 -right-2 bg-pink-400 text-white p-2 rounded-full text-xs font-bold" id="cat-badge">
+                    Meo~
+                </div>
+            </div>
+
+            <!-- Content -->
+            <h1 class="text-3xl font-bold text-pink-600 mb-1" id="main-title">ÓC BÒ</h1>
+            <p class="text-pink-400 font-semibold mb-4 italic">"Ăn, ngủ, hết "</p>
+            
+            <div class="cat-nose"></div>
+
+            <div class="space-y-4 text-gray-600 text-sm mt-6">
+                <div class="bg-pink-50 p-3 rounded-xl border border-pink-100">
+                    <span class="font-bold text-pink-500">Sở thích:</span> Ngủ nướng 16 tiếng, nghiện a khoi :u, và rat oc bo.
+                </div>
+                <div class="bg-pink-50 p-3 rounded-xl border border-pink-100">
+                    <span class="font-bold text-pink-500">Ghét:</span> Vy dep trai ngau loi sigma
+                </div>
+                <div class="bg-pink-50 p-3 rounded-xl border border-pink-100">
+                    <span class="font-bold text-pink-500">Mục tiêu:</span> Thống trị thế giới (duma).
+                </div>
+                
+                <!-- Mục Crush (Mặc định ẩn) -->
+                <div id="crush-section" class="bg-pink-100 p-4 rounded-xl border-2 border-dashed border-pink-300 mt-4 animate-pulse">
+                    <span class="font-bold text-pink-600 block mb-2">💘 crush của óc bò 💘</span>
+                    <div class="crush-container">
+                        <img src="https://scontent.fhan15-2.fna.fbcdn.net/v/t39.30808-6/631036925_122106397983232302_8790561321564436631_n.jpg?stp=dst-jpg_s960x960_tt6&_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=F4t19jYAVPQQ7kNvwH2BIWG&_nc_oc=AdlFtffAtc76P3969yt2XejWS_e_sVR7exs_i4J7Bv-JU9TxvKSZgui7r06Pg6WYz9wJxmh_0Armmf3rBzap7Zdc&_nc_zt=23&_nc_ht=scontent.fhan15-2.fna&_nc_gid=rH34iw0XdhoemSr7N7X4Mw&oh=00_Afu-k3VfO9f0a94rmH5qxIsQIWE7TB8oEyHXQt9B9KziCQ&oe=69912C27" alt="Crush" class="crush-img" id="crush-photo">
+                        <span class="heart-icon">❤️</span>
+                    </div>
+                    <p class="text-pink-500 mt-2 font-semibold italic">HDPE LÀ NGON LUON .</p>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="flex justify-center gap-4 mt-8">
+                <a href="https://www.facebook.com/profile.php?id=61586969076624" class="btn-meo p-3 rounded-full text-white shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>
+                </a>
+            </div>
+
+            <!-- Nút Action được làm mới cực kỳ nổi bật -->
+            <div class="mt-10 mb-2">
+                <button onclick="toggleCayCuMode()" class="btn-magic" id="btn-action">
+                    ✨ NHẤN ĐỂ HẾT MÁT MÁT ✨
+                </button>
+            </div>
+            
+            <div id="meow-msg" class="hidden mt-4 text-pink-400 font-bold text-lg">
+                 Bình thường rồi đó! 😂
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const body = document.getElementById('main-body');
+        const card = document.getElementById('profile-card');
+        const msg = document.getElementById('meow-msg');
+        const title = document.getElementById('main-title');
+        const badge = document.getElementById('cat-badge');
+        const btn = document.getElementById('btn-action');
+        const crushSection = document.getElementById('crush-section');
+
+        let isCayCuActive = false;
+
+        window.onload = function() {
+            setInterval(createFloatingParticle, 300);
+        };
+
+        function createFloatingParticle() {
+            const angryItems = ['😡', '💢', '🔥', '🤬'];
+            const normalItems = ['🐾', '✨', '❤️'];
+            const p = document.createElement('div');
+            p.className = 'particle';
+            const items = isCayCuActive ? angryItems : [...angryItems, ...normalItems];
+            p.innerHTML = items[Math.floor(Math.random() * items.length)];
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.fontSize = Math.random() * 20 + 20 + 'px';
+            p.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            document.body.appendChild(p);
+            setTimeout(() => { p.remove(); }, 5000);
+        }
+
+        function toggleCayCuMode() {
+            isCayCuActive = !isCayCuActive;
+
+            if (isCayCuActive) {
+                body.style.backgroundColor = '#f87171';
+                card.classList.add('cay-cu-active');
+                card.style.borderColor = '#7f1d1d';
+                msg.innerHTML = "CAY THẾ NHỜ!!! 😡💢🔥";
+                msg.className = "mt-4 cay-cu-text animate-bounce block";
+                title.classList.add('cay-cu-text');
+                badge.innerHTML = "CÁU!";
+                badge.style.backgroundColor = "#7f1d1d";
+                btn.innerHTML = "💢 ĐANG CAY LẮM ĐỪNG NHẤN 💢";
+                btn.style.background = "linear-gradient(45deg, #7f1d1d, #ef4444)";
+                
+                crushSection.style.display = 'block';
+                setTimeout(() => crushSection.classList.add('show'), 10);
+            } else {
+                body.style.backgroundColor = '#fef2f2';
+                card.classList.remove('cay-cu-active');
+                card.style.borderColor = '#fbcfe8';
+                msg.innerHTML = "Bình thường rồi đó! (Chắc vậy 😂)";
+                msg.className = "hidden mt-4 text-pink-400 font-bold animate-bounce";
+                title.classList.remove('cay-cu-text');
+                badge.innerHTML = "Meo~";
+                badge.style.backgroundColor = "#f472b6";
+                btn.innerHTML = "✨ NHẤN ĐỂ HẾT MÁT MÁT ✨";
+                btn.style.background = "linear-gradient(45deg, #ff9a9e 0%, #fecfef 100%)";
+                
+                crushSection.classList.remove('show');
+                setTimeout(() => { if(!isCayCuActive) crushSection.style.display = 'none'; }, 500);
+            }
+        }
+    </script>
+</body>
+</html>
